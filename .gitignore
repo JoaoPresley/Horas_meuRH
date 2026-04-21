@@ -1,1 +1,5 @@
 *.env
+*.idea
+
+#para remover quando finalizar o codigo
+/requirements.txt
