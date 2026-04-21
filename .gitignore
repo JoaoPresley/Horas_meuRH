@@ -1,5 +1,9 @@
 *.env
 *.idea
 
+#ignora meus testes
+*teste*
+
+
 #para remover quando finalizar o codigo
 /requirements.txt
