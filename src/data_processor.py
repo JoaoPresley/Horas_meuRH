@@ -46,18 +46,8 @@ class DataProcessor:
 
                 data.append(day_data)
             else:
-                # Handle cases where the regex might not match perfectly, e.g., weekends with no punches
-                # or different text formats. For now, we'll just append a basic structure.
-                # A more robust solution would involve more complex regex or parsing logic.
-                day_data = {
-                    'Data': text.split(' ')[0] if text else '',
-                    'Dia': text.split(' ')[1] if text and len(text.split(' ')) > 1 else '',
-                    'Batida_1': '00:00',
-                    'Batida_2': '00:00',
-                    'Batida_3': '00:00',
-                    'Batida_4': '00:00',
-                }
-                data.append(day_data)
+                raise ValueError(f"Não foi possível encontrar o padrão de data e dia no texto: '{text[:50]}...'")
+
 
         self.df = pd.DataFrame(data)
         
