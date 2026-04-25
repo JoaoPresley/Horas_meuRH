@@ -41,7 +41,7 @@ class DataProcessor:
 
                 # Percorre todas as batidas as nomeando.
                 for i in range(len(hours)):
-                    col_name = f"Batida_{i}"
+                    col_name = f"Batida_{i+1}"
                     day_data[col_name] = hours[i]
 
                 data.append(day_data)
