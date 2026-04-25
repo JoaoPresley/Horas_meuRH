@@ -79,8 +79,8 @@ class DataProcessor:
         self.df["Meta_horas"] = self.df["Dia"].apply(lambda x: pd.to_timedelta("00:00:00") if x.lower() in ("sábado","domingo") else pd.to_timedelta("08:00:00"))
         self.df["Saldo_Extra"] = self.df["Saldo_diario"] - self.df["Meta_horas"]
 
-        self.saldo_mes = self._formata_timedelta_to_hh_mm(self.df["Saldo_Extra"].sum())
-        
+        self.saldo_mes = self.df["Saldo_Extra"].sum()
+
         # Calculate Saldo Total
         try:
             td_saldo_mes = pd.to_timedelta(self.saldo_mes + ":00")
