@@ -1,7 +1,6 @@
 from src.webdriver_manager import WebDriverManager
 from src.data_processor import DataProcessor
 from config.config import config
-import pandas as pd
 
 def main():
     print("Iniciando o processo de extração e análise de horas...")
