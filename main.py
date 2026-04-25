@@ -32,8 +32,8 @@ def main():
             print(f"Saldo Total: {saldo_total}")
 
             # Save the processed data to a CSV file for further analysis
-            df_result.to_csv("Horas_meuRH_refatorado/data/horas_processadas.csv", index=False)
-            print("\nDados processados salvos em Horas_meuRH_refatorado/data/horas_processadas.csv")
+            df_result.to_csv("./data/horas_processadas.csv", index=False)
+            print("\nDados processados salvos em ./data/horas_processadas.csv")
 
         else:
             print("Não foi possível extrair o conteúdo HTML.")
