@@ -56,6 +56,9 @@ class DataProcessor:
         # Convert time columns to timedelta
         time_cols = ['Batida_1', 'Batida_2', 'Batida_3', 'Batida_4']
         for col in time_cols:
+            # Antes de transformar para timedelta precisa tratar os NaN
+            self.df[col].fillna("00:00")
+            #Agora sim concatena e transforma
             self.df[col] = pd.to_timedelta(self.df[col] + ':00')
 
         # Extract Saldo Anterior
