@@ -83,7 +83,8 @@ class DataProcessor:
 
         # Calculate Saldo Total
         try:
-            td_saldo_mes = pd.to_timedelta(self.saldo_mes + ":00")
+            td_saldo_mes = self.saldo_mes
+            #Precisa colocar uma funcao para tranformar o saldo anterior em um aceitavel pelo time delta, se o saldo anterior for negativo vai bugar
             td_saldo_anterior = pd.to_timedelta(self.saldo_anterior + ":00")
             self.saldo_total = self._formata_timedelta_to_hh_mm(td_saldo_mes + td_saldo_anterior)
         except Exception as e:
