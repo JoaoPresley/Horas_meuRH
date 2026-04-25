@@ -92,4 +92,8 @@ class DataProcessor:
             self.saldo_total = "Erro"
 
     def get_processed_data(self):
+        #formata o dataframe antes de entregar
+        self.saldo_mes = self._formata_timedelta_to_hh_mm(self.saldo_mes)#formata saldo do mes
+        for col in self.df.columns[2:]:
+            self.df[col] = self.df[col].apply(self._formata_timedelta_to_hh_mm)#formata horario das batidas
         return self.df, self.saldo_anterior, self.saldo_mes, self.saldo_total
