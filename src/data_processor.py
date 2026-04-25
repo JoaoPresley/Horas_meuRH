@@ -16,7 +16,7 @@ class DataProcessor:
         total_seconds = abs(total_seconds)
         hours = total_seconds // 3600
         minutes = (total_seconds % 3600) // 60
-        return f"{sign}{hours:02d}:{minutes:02d}"
+        return f'"{sign}{hours:02d}:{minutes:02d}"'
 
     def extract_data(self):
         lines = self.soup.tbody.find_all('tr')
@@ -50,7 +50,7 @@ class DataProcessor:
 
 
         self.df = pd.DataFrame(data)
-        
+
         # Convert time columns to timedelta
         time_cols = self.df.columns[2:]
         for col in time_cols:
