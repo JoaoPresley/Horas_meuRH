@@ -48,7 +48,7 @@ class WebDriverManager:
             # A more robust solution would involve dynamically finding the correct option.
             # For demonstration, let's assume we want the first available option that is not the current period.
             # This is a simplification and might need refinement based on the actual website's behavior.
-            time.sleep(self.config.t_wait) # Wait for the page to load periods
+            #time.sleep(self.config.t_wait) # Wait for the page to load periods
             
             # Attempt to select a period. This is highly dependent on the website's structure.
             # The original code selected '16/03/2026'. I'll try to find a similar element.

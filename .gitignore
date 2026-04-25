@@ -1,5 +1,7 @@
 *.env
 *.idea
+__pycache__/
+*.pyc
 
 #ignora meus testes
 *teste*
