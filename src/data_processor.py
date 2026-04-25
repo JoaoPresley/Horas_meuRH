@@ -25,7 +25,7 @@ class DataProcessor:
             text = line.get_text(separator=' ')
             # Regex para extrair Data, Dia e as Batidas
             # Exemplo: '15/04 quarta-feira qua. 07:25 Entrada 1 09:45 Saída 1 13:30 Entrada 2 17:05 Saída 2 Resumo diário Incluir batida Solicitar abono Enviar atestado'
-            match = re.match(r'(\d{2}/\d{2})\s+([a-zA-ZçÇãÃéÉáÁóÓúÚíÍ]+)-feira\s+.*?(?:(\d{2}:\d{2})\s+Entrada\s+1)?\s*?(?:(\d{2}:\d{2})\s+Saída\s+1)?\s*?(?:(\d{2}:\d{2})\s+Entrada\s+2)?\s*?(?:(\d{2}:\d{2})\s+Saída\s+2)?', text)
+            match = re.search(r'(\d{2}/\d{2})\s+([a-zA-ZçÇãÃéÉáÁóÓúÚíÍ]+)', text, re.IGNORECASE)
             
             if match:
                 # Dia do ponto, ex: 01/04
