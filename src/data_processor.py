@@ -55,7 +55,7 @@ class DataProcessor:
         time_cols = self.df.columns[2:]
         for col in time_cols:
             # Antes de transformar para timedelta precisa tratar os NaN
-            self.df[col].fillna("00:00")
+            self.df[col] = self.df[col].fillna("00:00")
             #Agora sim concatena e transforma
             self.df[col] = pd.to_timedelta(self.df[col] + ':00')
 
