@@ -28,14 +28,22 @@ class DataProcessor:
             match = re.match(r'(\d{2}/\d{2})\s+([a-zA-ZçÇãÃéÉáÁóÓúÚíÍ]+)-feira\s+.*?(?:(\d{2}:\d{2})\s+Entrada\s+1)?\s*?(?:(\d{2}:\d{2})\s+Saída\s+1)?\s*?(?:(\d{2}:\d{2})\s+Entrada\s+2)?\s*?(?:(\d{2}:\d{2})\s+Saída\s+2)?', text)
             
             if match:
-                day_data = {
-                    'Data': match.group(1),
-                    'Dia': match.group(2),
-                    'Batida_1': match.group(3) if match.group(3) else '00:00',
-                    'Batida_2': match.group(4) if match.group(4) else '00:00',
-                    'Batida_3': match.group(5) if match.group(5) else '00:00',
-                    'Batida_4': match.group(6) if match.group(6) else '00:00',
-                }
+                # Dia do ponto, ex: 01/04
+                day_schedule = match.group(1)
+                # Dia da semana, ex: quarta
+                day = match.group(2)
+
+                # Regex para encontrar todos os pontos do dia, podem haver mais que 4 ou menos se houve batida erradas ou horas extras.
+                hours = re.findall(r'\d{2}:\d{2}', text, re.IGNORECASE)
+
+                #Preenche o dict que será inserio no data com os dias e depois as horas
+                day_data = {"Data": day_schedule, "Dia": day}
+
+                # Percorre todas as batidas as nomeando.
+                for i in range(len(hours)):
+                    col_name = f"Batida_{i}"
+                    day_data[col_name] = hours[i]
+
                 data.append(day_data)
             else:
                 # Handle cases where the regex might not match perfectly, e.g., weekends with no punches
