@@ -18,6 +18,33 @@ class DataProcessor:
         minutes = (total_seconds % 3600) // 60
         return f'"{sign}{hours:02d}:{minutes:02d}"'
 
+    def _create_collumns00or08(self):
+        # Garante o tipo correto da coluna data
+        ano_atual = date.today().year
+        self.df["Data"] = pd.to_datetime(self.df["Data"] + f'/{ano_atual}', format="%d/%m/%Y").dt.date
+
+        ##FALTA Implementar feriados
+
+        # Define a lógica unificada
+        def calcular_meta(linha):
+            data_celula = linha["Data"]
+            dia_semana_texto = str(linha["Dia"]).lower()
+
+            # Regra 1: Se for Sábado ou Domingo -> 00:00
+            if dia_semana_texto in ("sábado", "domingo", "sabado"):
+                return pd.to_timedelta("00:00:00")
+
+            # Regra 2: Se for um dia no futuro (maior que hoje) -> 00:00
+            if data_celula > date.today():
+                return pd.to_timedelta("00:00:00")
+
+            # Regra 3: Caso contrário (dia útil passado ou hoje) -> 08:00
+            return pd.to_timedelta("08:00:00")
+
+        # Aplica a função no DataFrame linha por linha (axis=1)
+        self.df["Meta_horas"] = self.df.apply(calcular_meta, axis=1)
+
+
     def extract_data(self):
         lines = self.soup.tbody.find_all('tr')
         data = []
