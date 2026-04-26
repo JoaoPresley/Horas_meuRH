@@ -42,25 +42,18 @@ class WebDriverManager:
             espelho_ponto = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//p[contains(text(), 'Espelho de ponto')]")))
             espelho_ponto.click()
 
-            # Select the previous month's data (this part might need adjustment based on actual HTML structure)
-            # The original notebook had a hardcoded date, which is not ideal. 
-            # For now, I'll keep a placeholder for selecting a period.
-            # A more robust solution would involve dynamically finding the correct option.
-            # For demonstration, let's assume we want the first available option that is not the current period.
-            # This is a simplification and might need refinement based on the actual website's behavior.
-            #time.sleep(self.config.t_wait) # Wait for the page to load periods
-            
-            # Attempt to select a period. This is highly dependent on the website's structure.
-            # The original code selected '16/03/2026'. I'll try to find a similar element.
-            # If this fails, it might require manual inspection of the website's HTML.
-            try:
-                # This XPath is a guess based on the original notebook's intent.
-                # It might need to be more generic or specific depending on the actual site.
-                data_analisada = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//option[contains(text(), '16/03/2026')]" )))
-                data_analisada.click()
-            except Exception:
-                print("Could not find specific date option '16/03/2026'. Attempting to proceed without explicit selection.")
-                # If the specific date is not found, proceed, assuming the default or current period is loaded.
+            #-------------------------------
+            # * Here, I tested the code with existing data to analyze and ensure that everything was working well.
+            #
+            #try:
+            #    # This XPath is a guess based on the original notebook's intent.
+            #    # It might need to be more generic or specific depending on the actual site.
+            #    data_analisada = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//option[contains(text(), '16/03/2026')]" )))
+            #    data_analisada.click()
+            #except Exception:
+            #    print("Could not find specific date option '16/03/2026'. Attempting to proceed without explicit selection.")
+            #    # If the specific date is not found, proceed, assuming the default or current period is loaded.
+            #----------------------------------
 
             time.sleep(self.config.t_wait) # Wait for the selected period to load
 
