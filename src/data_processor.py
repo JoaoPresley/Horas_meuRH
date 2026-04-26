@@ -105,7 +105,7 @@ class DataProcessor:
             col2 = f"Batida_{i+1}"
             self.df["Saldo_diario"] += self.df[col2] - self.df[col1]
 
-        self.df["Meta_horas"] = self.df["Dia"].apply(lambda x: pd.to_timedelta("00:00:00") if x.lower() in ("sábado","domingo") else pd.to_timedelta("08:00:00"))
+        self._create_collumns00or08()
         self.df["Saldo_Extra"] = self.df["Saldo_diario"] - self.df["Meta_horas"]
 
         self.saldo_mes = self.df["Saldo_Extra"].sum()
