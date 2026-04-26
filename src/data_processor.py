@@ -61,12 +61,15 @@ class DataProcessor:
                 day_schedule = match.group(1)
                 # Dia da semana, ex: quarta
                 day = match.group(2)
+                # Status do dia, ex: Feriado ou Normal
+                status = re.search(r"\bferiado\b", text, re.IGNORECASE)
+                status = status.group().lower() if status else "normal"
 
                 # Regex para encontrar todos os pontos do dia, podem haver mais que 4 ou menos se houve batida erradas ou horas extras.
                 hours = re.findall(r'\d{2}:\d{2}', text, re.IGNORECASE)
 
                 #Preenche o dict que será inserio no data com os dias e depois as horas
-                day_data = {"Data": day_schedule, "Dia": day}
+                day_data = {"Data": day_schedule, "Dia": day, "Status": status}
 
                 # Percorre todas as batidas as nomeando.
                 for i in range(len(hours)):
@@ -81,7 +84,7 @@ class DataProcessor:
         self.df = pd.DataFrame(data)
 
         # Convert time columns to timedelta
-        time_cols = self.df.columns[2:]
+        time_cols = self.df.columns[3:]
         for col in time_cols:
             # Antes de transformar para timedelta precisa tratar os NaN
             self.df[col] = self.df[col].fillna("00:00")
@@ -100,7 +103,7 @@ class DataProcessor:
             self.extract_data()
 
         self.df["Saldo_diario"] = pd.to_timedelta("00:00:00")
-        for i in range(1, len(self.df.columns[2:]), 2):
+        for i in range(1, len(self.df.columns[3:]), 2):
             col1 = f"Batida_{i}"
             col2 = f"Batida_{i+1}"
             self.df["Saldo_diario"] += self.df[col2] - self.df[col1]
@@ -123,6 +126,6 @@ class DataProcessor:
     def get_processed_data(self):
         #formata o dataframe antes de entregar
         self.saldo_mes = self._formata_timedelta_to_hh_mm(self.saldo_mes)#formata saldo do mes
-        for col in self.df.columns[2:]:
+        for col in self.df.columns[3:]:
             self.df[col] = self.df[col].apply(self._formata_timedelta_to_hh_mm)#formata horario das batidas
         return self.df, self.saldo_anterior, self.saldo_mes, self.saldo_total
