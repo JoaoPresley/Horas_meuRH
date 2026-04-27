@@ -24,15 +24,18 @@ def main():
             df_result, saldo_anterior, saldo_mes, saldo_total = data_processor.get_processed_data()
             
             print("\n--- Resultados da Análise ---")
-            print("DataFrame de Saldo Diário:")
-            print(df_result.head(10).to_markdown(index=False))
             print(f"\nSaldo Anterior: {saldo_anterior}")
             print(f"Saldo do Mês: {saldo_mes}")
             print(f"Saldo Total: {saldo_total}")
 
             # Save the processed data to a CSV file for further analysis
-            df_result.to_csv("./data/horas_processadas.csv", index=False, sep=";", encoding="utf-8")
-            print("\nDados processados salvos em ./data/horas_processadas.csv")
+            try:
+                df_result.to_csv("./data/horas_processadas.csv", index=False, sep=";", encoding="utf-8")
+                print(f'{'-' * 64}')
+                print("!!! Dados processados salvos em ./data/horas_processadas.csv !!!")
+                print(f'{'-' * 64}')
+            except Exception as e:
+                print(f"Ocorreu um erro inesperado ao tentar salvar os dados em ./data/horas_processadas.csv: {e}")
 
         else:
             print("Não foi possível extrair o conteúdo HTML.")
