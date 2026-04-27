@@ -1,36 +1,49 @@
 @echo off
-:: Define o título da janela do terminal
-title Gerenciador MeuRH
+setlocal enabledelayedexpansion
+title Gerenciador MeuRH (Hibrido)
 
-:: Verifica se o ambiente virtual (.venv) existe
-if not exist ".venv" (
-    echo [INFO] Ambiente virtual nao encontrado. Criando...
-    python -m venv .venv
-    if errorlevel 1 (
-        echo [ERRO] Python nao esta instalado ou nao esta no PATH.
+:: --- CONFIGURAÇÃO ---
+set VENV_PATH=.venv
+
+:: 1. Tenta detectar o Python puro ou o comando 'py'
+set PY_CMD=
+where py >nul 2>nul && set PY_CMD=py
+if not defined PY_CMD (
+    where python >nul 2>nul && set PY_CMD=python
+)
+
+:: 2. Se não achou Python, tenta detectar o Conda
+if not defined PY_CMD (
+    where conda >nul 2>nul
+    if not errorlevel 1 (
+        echo [INFO] Anaconda detectado. Criando ambiente via Conda...
+        :: No Anaconda, o comando para criar venv de python puro eh esse:
+        conda run python -m venv %VENV_PATH%
+        set PY_CMD=python
+    ) else (
+        echo [ERRO] Nem Python nem Anaconda foram encontrados no seu sistema.
         pause
         exit /b
     )
 )
 
-:: Ativa o ambiente virtual (.bat usa o activate.bat em vez do .ps1)
-echo [INFO] Ativando ambiente virtual...
-call .venv\Scripts\activate.bat
+:: 3. Cria o ambiente virtual se não existir
+if not exist "%VENV_PATH%" (
+    echo [INFO] Criando ambiente virtual com !PY_CMD!...
+    !PY_CMD! -m venv %VENV_PATH%
+)
 
-:: Instala as dependencias
-echo [INFO] Instalando/Atualizando dependencias (isso pode demorar um pouco)...
+:: 4. Ativa o ambiente virtual (.venv local)
+:: O segredo aqui: mesmo que criado pelo Conda, o venv usa o activate.bat comum
+echo [INFO] Ativando ambiente...
+call %VENV_PATH%\Scripts\activate.bat
+
+:: 5. Instala dependencias e roda
+echo [INFO] Verificando dependencias...
 pip install -r requirements.txt -qq
 
-:: Executa o script principal
 echo [INFO] Iniciando main.py...
-echo ---------------------------------------
 python main.py
-echo ---------------------------------------
 
-:: Desativa o ambiente virtual
 call deactivate
-
-:: Espera o usuário pressionar uma tecla antes de fechar a janela
-echo.
-echo Processo finalizado.
-set /p dummy=Aperte qualquer tecla para sair...
+pause
