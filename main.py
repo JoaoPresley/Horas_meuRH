@@ -30,7 +30,7 @@ def main():
 
             # Save the processed data to a CSV file for further analysis
             try:
-                df_result.to_csv("./data/horas_processadas.csv", index=False, sep=";", encoding="utf-8")
+                df_result.to_csv("./data/horas_processadas.csv", index=False, sep=";", encoding="latin-1")
                 print(f'{'-' * 64}')
                 print("!!! Dados processados salvos em ./data/horas_processadas.csv !!!")
                 print(f'{'-' * 64}')
