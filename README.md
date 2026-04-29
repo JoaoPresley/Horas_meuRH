@@ -2,6 +2,9 @@
 
 O **Horas_meuRH** é um automatizador de extração e análise de banco de horas para o portal TOTVS MeuRH. Ele utiliza Selenium para navegar no sistema, extrai os dados via Web Scraping e utiliza lógica de processamento de dados para calcular seu saldo real, ignorando a latência de aprovação dos gestores.
 
+## Demonstração do Projeto
+<video src="demonstracao.mp4" width="100%" controls></video>
+
 ## 🛠️ O que o código faz?
 * **Automação de Login:** Acessa o portal de RH de forma segura usando suas credenciais.
 * **Web Scraping Inteligente:** Extrai os dados brutos da tabela de "Espelho de Ponto" usando BeautifulSoup4.
