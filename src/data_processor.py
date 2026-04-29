@@ -10,7 +10,9 @@ class DataProcessor:
         self.df = None
         self.saldo_anterior = None
         self.saldo_mes = None
+        self.saldo_mes_sem_hoje = None
         self.saldo_total = None
+        self.saldo_total_sem_hoje = None
 
     def _formata_timedelta_to_hh_mm(self, td):
         total_seconds = int(td.total_seconds())
@@ -116,19 +118,29 @@ class DataProcessor:
 
         self.saldo_mes = self.df["Saldo_Extra"].sum()
 
+        saldo_extra_hoje = self.df.loc[self.df["Data"] == date.today(), "Saldo_Extra"]
+        self.saldo_mes_sem_hoje = self.df["Saldo_Extra"].sum() - saldo_extra_hoje.item()
         # Calculate Saldo Total
         try:
-            td_saldo_mes = self.saldo_mes
-            #Precisa colocar uma funcao para tranformar o saldo anterior em um aceitavel pelo time delta, se o saldo anterior for negativo vai bugar
             td_saldo_anterior = pd.to_timedelta(self.saldo_anterior + ":00")
+            #saldo total considerando as horas do dia atual
+            td_saldo_mes = self.saldo_mes
             self.saldo_total = self._formata_timedelta_to_hh_mm(td_saldo_mes + td_saldo_anterior)
+
+            #saldo total desconsiderando o dia de hoje
+            td_saldo_mes_sem_hoje = self.saldo_mes_sem_hoje
+            self.saldo_total_sem_hoje = self._formata_timedelta_to_hh_mm(td_saldo_mes_sem_hoje + td_saldo_anterior)
+
         except Exception as e:
             print(f"Erro ao calcular saldo total: {e}")
             self.saldo_total = "Erro"
 
     def get_processed_data(self):
         #formata o dataframe antes de entregar
-        self.saldo_mes = self._formata_timedelta_to_hh_mm(self.saldo_mes)#formata saldo do mes
+        # formata saldo do mes
+        self.saldo_mes = self._formata_timedelta_to_hh_mm(self.saldo_mes)
+        self.saldo_mes_sem_hoje = self._formata_timedelta_to_hh_mm(self.saldo_mes_sem_hoje)
+        # formata as batidas
         for col in self.df.columns[3:]:
             self.df[col] = self.df[col].apply(self._formata_timedelta_to_hh_mm)#formata horario das batidas
-        return self.df, self.saldo_anterior, self.saldo_mes, self.saldo_total
+        return self.df, self.saldo_anterior, self.saldo_mes, self.saldo_total, self.saldo_mes_sem_hoje, self.saldo_total_sem_hoje

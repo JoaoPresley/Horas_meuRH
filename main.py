@@ -21,12 +21,14 @@ def main():
             data_processor.extract_data()
             data_processor.calculate_balances()
             
-            df_result, saldo_anterior, saldo_mes, saldo_total = data_processor.get_processed_data()
+            df_result, saldo_anterior, saldo_mes, saldo_total, saldo_mes_sem_hoje, saldo_total_sem_hoje = data_processor.get_processed_data()
             
             print("\n--- Resultados da Análise ---")
             print(f"\nSaldo Anterior: {saldo_anterior}")
             print(f"Saldo do Mês: {saldo_mes}")
             print(f"Saldo Total: {saldo_total}")
+            print(f"Saldo do Mês, desconsiderando o dia de hoje: {saldo_mes_sem_hoje}")
+            print(f"Saldo Total, desconsiderando o dia de hoje: {saldo_total_sem_hoje}")
 
             # Save the processed data to a CSV file for further analysis
             try:
