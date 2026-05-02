@@ -1,15 +1,9 @@
-
-
-
-
-
-
 # 🕒 Horas_meuRH
 
 O **Horas_meuRH** é um automatizador de extração e análise de banco de horas para o portal TOTVS MeuRH. Ele utiliza Selenium para navegar no sistema, extrai os dados via Web Scraping e utiliza lógica de processamento de dados para calcular seu saldo real, ignorando a latência de aprovação dos gestores.
 
 ## Demonstração do Projeto
-https://github.com/SEU_USUARIO/NOME_DO_REPO/blob/main/demonstacao_funcionamento.mp4?raw=true
+![Video_usando_a_automacao](demonstacao_funcionamento.mp4)
 
 ## 🛠️ O que o código faz?
 * **Automação de Login:** Acessa o portal de RH de forma segura usando suas credenciais.
@@ -53,6 +47,8 @@ Ao final, o programa exibirá no console:
 * **Saldo Anterior** (extraído do sistema).
 * **Saldo do Mês** (calculado pelo script).
 * **Saldo Total** (Soma projetada).
+* **Gráficos desses saldos**
+    * ![Grafico_de_saldo_de_horas](./data/grafico_horas.png)
 
 Um log detalhado será salvo em: `./data/horas_processadas.csv`
 
