@@ -69,6 +69,5 @@ class DataVisualizer:
             os.makedirs(os.path.dirname(caminho), exist_ok=True)
             self.fig.savefig(caminho, dpi=300)
             plt.close(self.fig)  # Fecha para liberar memória
-            print(f"Gráfico salvo com sucesso em: {caminho}")
         else:
             print("Erro: O gráfico precisa ser criado antes de salvar.")
