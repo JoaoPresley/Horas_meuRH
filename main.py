@@ -1,3 +1,4 @@
+from src.data_visualizer import DataVisualizer
 from src.webdriver_manager import WebDriverManager
 from src.data_processor import DataProcessor
 from config.config import config
@@ -38,6 +39,22 @@ def main():
                 print(f'{'-' * 64}')
             except Exception as e:
                 print(f"Ocorreu um erro inesperado ao tentar salvar os dados em ./data/horas_processadas.csv: {e}")
+
+            # Create a graphic of hours
+            try:
+                viz = DataVisualizer(titulo="Horas sem o dia de hoje")
+                viz.criar_grafico_saldos(saldo_anterior, saldo_mes_sem_hoje, saldo_total_sem_hoje)
+                viz.salvar("./data/grafico_horas_sem_hoje.png")
+                print(f'{'-' * 64}')
+                print("!!! Salvo grafico de horas desconsiderando o dia atual em ./data/grafico_horas_sem_hoje.png")
+
+                viz = DataVisualizer(titulo="Horas considerando as batidas do dia de hoje")
+                viz.criar_grafico_saldos(saldo_anterior, saldo_mes, saldo_total)
+                viz.salvar("./data/grafico_horas.png")
+                print("!!! Salvo grafico de horas considerando o dia atual em ./data/grafico_horas.png")
+                print(f'{'-' * 64}')
+            except Exception as e:
+                print(f"Ocorreu um erro inesperado ao tentar gerar os graficos: {e}")
 
         else:
             print("Não foi possível extrair o conteúdo HTML.")

@@ -2,6 +2,7 @@
 *.idea
 __pycache__/
 *.pyc
+*.csv
 
 #ignora meus testes
 *teste*
