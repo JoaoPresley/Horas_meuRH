@@ -46,4 +46,12 @@ echo [INFO] Iniciando main.py...
 python main.py
 
 call deactivate
+
+:: 6. Mostre os graficos da pasta ./data
+echo [INFO] Abrindo graficos encontrados na pasta /data
+for %%f in (data\*.png) do (
+    echo Mostrando: %%f
+    start "" "%%f"
+)
+
 pause
